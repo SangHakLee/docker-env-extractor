@@ -1,7 +1,7 @@
 # Docker Environment Extractor (dee)
 
-[![Shellcheck](https://github.com/sanghaklee/docker-env-extractor/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/sanghaklee/docker-env-extractor/actions/workflows/shellcheck.yml)
-[![Test Installation](https://github.com/sanghaklee/docker-env-extractor/actions/workflows/test-install.yml/badge.svg)](https://github.com/sanghaklee/docker-env-extractor/actions/workflows/test-install.yml)
+[![Shellcheck](https://github.com/SangHakLee/docker-env-extractor/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/SangHakLee/docker-env-extractor/actions/workflows/shellcheck.yml)
+[![Test Installation](https://github.com/SangHakLee/docker-env-extractor/actions/workflows/test-install.yml/badge.svg)](https://github.com/SangHakLee/docker-env-extractor/actions/workflows/test-install.yml)
 
 
 > Docker 컨테이너의 환경변수를 .env 파일로 추출하는 도구
@@ -9,7 +9,7 @@
 ## 설치
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/sanghaklee/docker-env-extractor/master/install.sh | sh
+curl -LsSf https://raw.githubusercontent.com/SangHakLee/docker-env-extractor/main/install.sh | sh
 ```
 
 ## 빠른 시작
@@ -90,7 +90,7 @@ MYSQL_USER=appuser
 ## 제거
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/sanghaklee/docker-env-extractor/master/install.sh | sh -s -- --uninstall
+curl -LsSf https://raw.githubusercontent.com/SangHakLee/docker-env-extractor/main/install.sh | sh -s -- --uninstall
 ```
 
 ## 라이선스

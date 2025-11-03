@@ -19,7 +19,7 @@ ALIAS_NAME="dee"
 ALIAS_PATH="$INSTALL_DIR/$ALIAS_NAME"
 
 # GitHub repository URL (update this with your actual repository)
-REPO_URL="https://raw.githubusercontent.com/sanghaklee/docker-env-extractor/master"
+REPO_URL="https://raw.githubusercontent.com/SangHakLee/docker-env-extractor/main"
 SCRIPT_URL="$REPO_URL/run.sh"
 
 # Colors
@@ -160,10 +160,10 @@ main() {
             echo "  Extracts environment variables from Docker containers to .env files"
             echo ""
             echo "Quick install:"
-            echo "  curl -LsSf https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/install.sh | sh"
+            echo "  curl -LsSf https://raw.githubusercontent.com/SangHakLee/docker-env-extractor/main/install.sh | sh"
             echo ""
             echo "Uninstall:"
-            echo "  curl -LsSf https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/install.sh | sh -s -- --uninstall"
+            echo "  curl -LsSf https://raw.githubusercontent.com/SangHakLee/docker-env-extractor/main/install.sh | sh -s -- --uninstall"
             ;;
         *)
             check_root "$@"
