@@ -10,6 +10,9 @@
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/SangHakLee/docker-env-extractor/main/install.sh | sh
+
+# 단축 URL
+curl -LsSf https://bit.ly/4oEhKjP | sh 
 ```
 
 ## 빠른 시작
