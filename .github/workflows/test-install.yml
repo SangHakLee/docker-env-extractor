@@ -1,0 +1,39 @@
+name: Test Installation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-install:
+    name: Test Install Script
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test direct installation
+        run: |
+          sudo bash install.sh
+          which gcloud-docker-network
+          gcloud-docker-network --version
+
+      - name: Test basic commands (dry-run mode)
+        run: |
+          gcloud-docker-network help
+          gcloud-docker-network list || true
+          gcloud-docker-network check --dry-run 8080 || true
+          gcloud-docker-network add --dry-run 8080 || true
+          gcloud-docker-network del --dry-run 8080 || true
+
+      - name: Test uninstallation
+        run: |
+          sudo bash install.sh --uninstall
+          if which gcloud-docker-network 2>/dev/null; then
+            echo "ERROR: Binary still exists after uninstall"
+            exit 1
+          fi
+          echo "Uninstall successful"

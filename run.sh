@@ -17,7 +17,7 @@ BOLD=$'\033[1m'
 NC=$'\033[0m'
 
 # 설정
-OUTPUT_DIR="./env-backup"
+OUTPUT_DIR="/tmp/docker-env-extractor"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 BACKUP_PREFIX=".env"
 CREATE_BACKUP=false
@@ -41,7 +41,7 @@ ${CYAN}========================================
 ${GREEN}사용법:${NC} ./extract-env.sh [옵션] [컨테이너...]
 
 ${GREEN}옵션:${NC}
-    -o, --output DIR     출력 디렉토리 [기본: ./env-backup]
+    -o, --output DIR     출력 디렉토리 [기본: /tmp/docker-env-extractor]
     -b, --backup         타임스탬프 포함 백업 생성
     -a, --all            실행 중인 모든 컨테이너 추출
     -v, --verbose        상세 출력 모드
@@ -49,20 +49,20 @@ ${GREEN}옵션:${NC}
 
 ${GREEN}예제:${NC}
     # 특정 컨테이너들 추출
-    ./extract-env.sh mysql redis nginx
+    mysql redis nginx
 
     # 모든 실행 중인 컨테이너 추출
-    ./extract-env.sh --all
+    --all
 
-    # 백업 모드로 추출
-    ./extract-env.sh --backup mysql redis
+    # 백업 모드로 추출(파일명에 자동으로 타임스탬프 suffix)
+    --backup mysql redis
 
     # 커스텀 출력 디렉토리
-    ./extract-env.sh -o ./backups --all
+    -o ./backups --all
 
 ${GREEN}출력 형식:${NC}
     • 기본: .env_<container_name>
-    • 백업: .env_<container_name>_<timestamp>
+    • 백업(--backup): .env_<container_name>_<timestamp>
 
 ${CYAN}========================================${NC}
 EOF
@@ -74,7 +74,7 @@ parse_args() {
     while [[ $# -gt 0 ]]; do
         case $1 in
             -o|--output)
-                OUTPUT_DIR="${2:-./env-backup}"
+                OUTPUT_DIR="${2:-/tmp/docker-env-extractor}"
                 shift 2
                 ;;
             -b|--backup)

@@ -1,6 +1,6 @@
 #!/bin/sh
 # shellcheck shell=dash
-# gcloud-env-extractor installer
+# docker-env-extractor installer
 
 set -e
 
@@ -13,11 +13,13 @@ has_local 2>/dev/null || alias local=typeset
 
 VERSION="1.0.0"
 INSTALL_DIR="/usr/local/bin"
-BINARY_NAME="gcloud-env-extractor"
+BINARY_NAME="docker-env-extractor"
 INSTALL_PATH="$INSTALL_DIR/$BINARY_NAME"
+ALIAS_NAME="dee"
+ALIAS_PATH="$INSTALL_DIR/$ALIAS_NAME"
 
 # GitHub repository URL (update this with your actual repository)
-REPO_URL="https://raw.githubusercontent.com/sanghaklee/gcloud-env-extractor/master"
+REPO_URL="https://raw.githubusercontent.com/sanghaklee/docker-env-extractor/master"
 SCRIPT_URL="$REPO_URL/run.sh"
 
 # Colors
@@ -60,21 +62,32 @@ check_root() {
 
 # Uninstall function
 uninstall() {
-    say "$(printf "${CYAN}Uninstalling gcloud-env-extractor...${NC}")"
+    say "$(printf "${CYAN}Uninstalling docker-env-extractor...${NC}")"
 
+    local removed=false
     if [ -f "$INSTALL_PATH" ]; then
         rm -f "$INSTALL_PATH"
-        say "$(printf "${GREEN}✅ Successfully uninstalled gcloud-env-extractor${NC}")"
-        say "$(printf "${BLUE}   Removed: $INSTALL_PATH${NC}")"
+        say "$(printf "${GREEN}✅ Removed: $INSTALL_PATH${NC}")"
+        removed=true
+    fi
+
+    if [ -L "$ALIAS_PATH" ] || [ -f "$ALIAS_PATH" ]; then
+        rm -f "$ALIAS_PATH"
+        say "$(printf "${GREEN}✅ Removed alias: $ALIAS_PATH${NC}")"
+        removed=true
+    fi
+
+    if [ "$removed" = true ]; then
+        say "$(printf "${GREEN}✅ Successfully uninstalled docker-env-extractor${NC}")"
     else
-        say "$(printf "${YELLOW}⚠️  gcloud-env-extractor is not installed${NC}")"
+        say "$(printf "${YELLOW}⚠️  docker-env-extractor is not installed${NC}")"
         exit 1
     fi
 }
 
 # Install function
 install() {
-    say "$(printf "${CYAN}Installing gcloud-env-extractor v${VERSION}...${NC}")"
+    say "$(printf "${CYAN}Installing docker-env-extractor v${VERSION}...${NC}")"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
     # Check required commands
@@ -106,18 +119,23 @@ install() {
     cp "$TMP_DIR/run.sh" "$INSTALL_PATH"
     chmod +x "$INSTALL_PATH"
 
+    # Create alias symlink
+    say "$(printf "${BLUE}🔗 Creating alias '$ALIAS_NAME'...${NC}")"
+    ln -sf "$BINARY_NAME" "$ALIAS_PATH"
+
     # Verify installation
-    if [ -x "$INSTALL_PATH" ]; then
+    if [ -x "$INSTALL_PATH" ] && [ -L "$ALIAS_PATH" ]; then
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        say "$(printf "${GREEN}✅ Successfully installed gcloud-env-extractor!${NC}")"
+        say "$(printf "${GREEN}✅ Successfully installed docker-env-extractor!${NC}")"
+        say "$(printf "${GREEN}✅ Alias '$ALIAS_NAME' is now available${NC}")"
         echo ""
         say "$(printf "${YELLOW}Quick Start:${NC}")"
-        printf "  ${CYAN}gcloud-env-extractor check 8080${NC}       # Check port status\n"
-        printf "  ${CYAN}gcloud-env-extractor add 8080${NC}         # Add port rule\n"
-        printf "  ${CYAN}gcloud-env-extractor list${NC}             # List Docker rules\n"
-        printf "  ${CYAN}gcloud-env-extractor help${NC}             # Show help\n"
+        printf "  ${CYAN}dee --all${NC}                       # Extract all running containers\n"
+        printf "  ${CYAN}dee mysql redis${NC}                # Extract specific containers\n"
+        printf "  ${CYAN}dee --backup --all${NC}             # Create timestamped backup\n"
+        printf "  ${CYAN}dee --help${NC}                     # Show help\n"
         echo ""
-        say "$(printf "${BLUE}💡 Run 'gcloud-env-extractor help' for more information${NC}")"
+        say "$(printf "${BLUE}💡 You can use either 'dee' or 'docker-env-extractor'${NC}")"
     else
         err "Installation failed"
     fi
@@ -131,18 +149,21 @@ main() {
             uninstall
             ;;
         --help|-h)
-            echo "gcloud-env-extractor installer v${VERSION}"
+            echo "docker-env-extractor installer v${VERSION}"
             echo ""
             echo "Usage:"
-            echo "  $0              Install gcloud-env-extractor"
-            echo "  $0 --uninstall  Uninstall gcloud-env-extractor"
+            echo "  $0              Install docker-env-extractor"
+            echo "  $0 --uninstall  Uninstall docker-env-extractor"
             echo "  $0 --help       Show this help"
             echo ""
+            echo "Description:"
+            echo "  Extracts environment variables from Docker containers to .env files"
+            echo ""
             echo "Quick install:"
-            echo "  curl -LsSf $REPO_URL/install.sh | sh"
+            echo "  curl -LsSf https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/install.sh | sh"
             echo ""
             echo "Uninstall:"
-            echo "  curl -LsSf $REPO_URL/install.sh | sh -s -- --uninstall"
+            echo "  curl -LsSf https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/install.sh | sh -s -- --uninstall"
             ;;
         *)
             check_root "$@"

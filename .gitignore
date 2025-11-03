@@ -1,0 +1,26 @@
+# Environment variable backups (if using custom output directory)
+*.env
+.env*
+!.env.example
+
+# Temporary files
+*.tmp
+*.bak
+.DS_Store
+
+# Test directories
+test-output/
+tmp/
+
+# Summary reports
+SUMMARY.md
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
