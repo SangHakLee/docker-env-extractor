@@ -11,7 +11,7 @@ has_local() {
 }
 has_local 2>/dev/null || alias local=typeset
 
-VERSION="1.0.0"
+VERSION="1.0.1"
 INSTALL_DIR="/usr/local/bin"
 BINARY_NAME="docker-env-extractor"
 INSTALL_PATH="$INSTALL_DIR/$BINARY_NAME"

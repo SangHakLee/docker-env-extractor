@@ -38,7 +38,7 @@ ${CYAN}========================================
 🐳 Docker Environment Extractor v1.0
 ========================================${NC}
 
-${GREEN}사용법:${NC} ./extract-env.sh [옵션] [컨테이너...]
+${GREEN}사용법:${NC} [옵션] [컨테이너...]
 
 ${GREEN}옵션:${NC}
     -o, --output DIR     출력 디렉토리 [기본: /tmp/docker-env-extractor]
@@ -265,8 +265,8 @@ main() {
     # 컨테이너 목록 확인
     if [ ${#CONTAINERS[@]} -eq 0 ]; then
         echo -e "${YELLOW}⚠️  추출할 컨테이너가 지정되지 않았습니다${NC}"
-        echo -e "${YELLOW}사용법: ./extract-env.sh <container1> <container2> ...${NC}"
-        echo -e "${YELLOW}또는: ./extract-env.sh --all${NC}"
+        echo -e "${YELLOW}사용법: <container1> <container2> ...${NC}"
+        echo -e "${YELLOW}또는: --all${NC}"
         exit 1
     fi
     
